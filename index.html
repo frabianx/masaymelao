@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Masa & Melao</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --mustard:#D4A017;
+    --mustard-dark:#A87A10;
+    --mustard-light:#F5E4A0;
+    --teal:#2A7F7F;
+    --teal-dark:#1F5F5F;
+    --teal-light:#E0F4F4;
+    --cream:#F5F0E8;
+    --wood:#EDE3D0;
+    --wood-dark:#C8B89A;
+    --text:#2C2416;
+    --text-muted:#6B5A3E;
+    --white:#FFFFFF;
+  }
+  html{scroll-behavior:smooth;}
+  body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(245,240,232,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--wood-dark);padding:0 2rem;}
+  .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .logo-text{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--mustard-dark);letter-spacing:.5px;}
+  .logo-text span{color:var(--teal);}
+  .nav-links{display:flex;gap:2rem;list-style:none;}
+  .nav-links a{text-decoration:none;color:var(--text-muted);font-size:.9rem;font-weight:500;transition:color .2s;}
+  .nav-links a:hover{color:var(--teal);}
+  .nav-cta{background:var(--teal);color:var(--white);padding:.5rem 1.2rem;border-radius:50px;font-size:.9rem;font-weight:600;text-decoration:none;transition:background .2s;}
+  .nav-cta:hover{background:var(--teal-dark);}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem;background:var(--cream);position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;top:-80px;right:-100px;width:500px;height:500px;background:var(--mustard-light);border-radius:50%;opacity:.35;pointer-events:none;}
+  .hero::after{content:'';position:absolute;bottom:-100px;left:-80px;width:380px;height:380px;background:var(--teal-light);border-radius:50%;opacity:.4;pointer-events:none;}
+  .hero-content{position:relative;z-index:1;max-width:720px;}
+  .hero-badge{display:inline-block;background:var(--mustard-light);color:var(--mustard-dark);font-size:.8rem;font-weight:600;padding:.35rem 1rem;border-radius:50px;margin-bottom:1.5rem;letter-spacing:.5px;text-transform:uppercase;}
+  .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,6vw,4.5rem);line-height:1.1;color:var(--text);margin-bottom:1.2rem;}
+  .hero h1 em{color:var(--mustard-dark);font-style:normal;}
+  .hero p{font-size:1.15rem;color:var(--text-muted);max-width:520px;margin:0 auto 2.5rem;line-height:1.7;}
+  .btn-primary{background:var(--teal);color:var(--white);padding:.85rem 2.2rem;border-radius:50px;font-size:1rem;font-weight:600;text-decoration:none;display:inline-block;transition:background .2s,transform .15s;margin-right:1rem;}
+  .btn-primary:hover{background:var(--teal-dark);transform:translateY(-2px);}
+  .btn-secondary{background:transparent;color:var(--teal);padding:.85rem 2.2rem;border-radius:50px;font-size:1rem;font-weight:600;text-decoration:none;display:inline-block;border:2px solid var(--teal);transition:all .2s;}
+  .btn-secondary:hover{background:var(--teal);color:var(--white);}
+  .hero-icons{display:flex;justify-content:center;gap:2.5rem;margin-top:3.5rem;flex-wrap:wrap;}
+  .hero-icon-item{display:flex;flex-direction:column;align-items:center;gap:.4rem;}
+  .hero-icon-circle{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;}
+  .ic-waffle{background:var(--mustard-light);}
+  .ic-crepe{background:#FFE8C8;}
+  .ic-donut{background:#FFD6D6;}
+  .ic-coffee{background:#D4EAE0;}
+  .hero-icon-item span{font-size:.8rem;font-weight:500;color:var(--text-muted);}
+
+  /* SECTION BASE */
+  section{padding:5rem 2rem;}
+  .container{max-width:1100px;margin:0 auto;}
+  .section-label{font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--teal);margin-bottom:.75rem;}
+  .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.6rem);color:var(--text);margin-bottom:1rem;line-height:1.2;}
+  .section-sub{color:var(--text-muted);font-size:1rem;max-width:540px;line-height:1.7;}
+
+  /* MENU */
+  .menu-section{background:var(--mustard);padding:5rem 2rem;}
+  .menu-section .section-label{color:var(--teal-dark);}
+  .menu-section .section-title{color:var(--text);}
+  .menu-section .section-sub{color:var(--text-muted);}
+  .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.5rem;margin-top:3rem;}
+  .menu-card{background:var(--white);border-radius:20px;padding:2rem 1.5rem;text-align:center;transition:transform .2s;}
+  .menu-card:hover{transform:translateY(-4px);}
+  .menu-card-icon{font-size:3rem;margin-bottom:1rem;display:block;}
+  .menu-card h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--text);margin-bottom:.5rem;}
+  .menu-card p{font-size:.88rem;color:var(--text-muted);line-height:1.6;margin-bottom:1.2rem;}
+  .menu-tag{background:var(--teal-light);color:var(--teal-dark);font-size:.75rem;font-weight:600;padding:.3rem .8rem;border-radius:50px;}
+
+  /* HISTORY */
+  .history-section{background:var(--cream);}
+  .history-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+  .history-visual{background:var(--wood);border-radius:24px;height:380px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+  .history-visual::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(210,180,140,.15) 20px,rgba(210,180,140,.15) 21px);}
+  .history-visual-text{font-family:'Playfair Display',serif;font-size:3.5rem;color:var(--mustard-dark);opacity:.3;position:relative;z-index:1;}
+  .history-text .section-sub{margin-top:1rem;}
+  .history-stat{display:flex;gap:2rem;margin-top:2rem;}
+  .stat-item{text-align:center;}
+  .stat-num{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--mustard-dark);display:block;}
+  .stat-label{font-size:.8rem;color:var(--text-muted);font-weight:500;}
+
+  /* GALLERY */
+  .gallery-section{background:var(--wood);}
+  .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:200px 200px;gap:1rem;margin-top:2.5rem;}
+  .gallery-item{border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative;overflow:hidden;}
+  .gallery-item.large{grid-row:span 2;border-radius:20px;}
+  .g1{background:var(--mustard-light);}
+  .g2{background:#FFE8C8;}
+  .g3{background:#FFD6D6;}
+  .g4{background:var(--teal-light);}
+  .g5{background:#EDD9F0;}
+  .gallery-overlay{position:absolute;bottom:0;left:0;right:0;background:rgba(44,36,22,.5);padding:.75rem 1rem;border-radius:0 0 16px 16px;}
+  .gallery-overlay span{color:var(--white);font-size:.8rem;font-weight:600;}
+
+  /* RESERVAS */
+  .reservas-section{background:var(--teal);padding:5rem 2rem;}
+  .reservas-section .section-label{color:var(--mustard-light);}
+  .reservas-section .section-title{color:var(--white);}
+  .reservas-section .section-sub{color:rgba(255,255,255,.75);}
+  .reservas-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+  .reservas-form{background:var(--white);border-radius:20px;padding:2.5rem;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+  .form-group{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem;}
+  .form-group label{font-size:.85rem;font-weight:600;color:var(--text-muted);}
+  .form-group input,.form-group select{background:var(--cream);border:1px solid var(--wood-dark);border-radius:10px;padding:.7rem 1rem;font-size:.9rem;color:var(--text);font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;}
+  .form-group input:focus,.form-group select:focus{border-color:var(--teal);}
+  .btn-reserva{width:100%;background:var(--mustard);color:var(--white);border:none;padding:.9rem;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;transition:background .2s;font-family:'Inter',sans-serif;}
+  .btn-reserva:hover{background:var(--mustard-dark);}
+  .reservas-info h3{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--white);margin-bottom:1.2rem;}
+  .info-item{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.5rem;}
+  .info-icon{width:44px;height:44px;background:rgba(255,255,255,.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+  .info-text strong{display:block;color:var(--white);font-size:.95rem;margin-bottom:.2rem;}
+  .info-text span{color:rgba(255,255,255,.7);font-size:.85rem;}
+
+  /* LOCATION */
+  .location-section{background:var(--cream);}
+  .location-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+  .map-placeholder{background:var(--wood);border-radius:20px;height:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;}
+  .map-pin{font-size:3rem;}
+  .map-placeholder p{color:var(--text-muted);font-size:.9rem;}
+  .hours-grid{display:grid;gap:.75rem;margin-top:1.5rem;}
+  .hour-row{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--wood-dark);}
+  .hour-day{font-weight:500;color:var(--text);font-size:.9rem;}
+  .hour-time{color:var(--teal-dark);font-size:.9rem;font-weight:600;}
+  .hour-closed{color:#b06060;font-size:.9rem;}
+
+  /* FOOTER */
+  footer{background:var(--text);color:rgba(255,255,255,.7);padding:3rem 2rem;}
+  .footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;}
+  .footer-brand .logo-text{font-size:1.6rem;}
+  .footer-brand p{font-size:.85rem;margin-top:.75rem;line-height:1.6;}
+  .footer-col h4{color:var(--white);font-size:.9rem;font-weight:600;margin-bottom:1rem;}
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+  .footer-col ul a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.85rem;transition:color .2s;}
+  .footer-col ul a:hover{color:var(--mustard);}
+  .footer-bottom{max-width:1100px;margin:2rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;align-items:center;font-size:.8rem;}
+  .social-links{display:flex;gap:1rem;}
+  .social-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;text-decoration:none;transition:background .2s;}
+  .social-btn:hover{background:var(--mustard);}
+
+  @media(max-width:768px){
+    .history-inner,.reservas-inner,.location-inner,.footer-inner{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+    .gallery-item.large{grid-row:span 1;}
+    .form-row{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo-text">Masa <span>&</span> Melao</div>
+    <ul class="nav-links">
+      <li><a href="#menu">Menú</a></li>
+      <li><a href="#historia">Nuestra historia</a></li>
+      <li><a href="#galeria">Galería</a></li>
+      <li><a href="#reservas">Reservas</a></li>
+      <li><a href="#ubicacion">Ubicación</a></li>
+    </ul>
+    <a href="https://wa.me/584122424161" target="_blank" class="nav-cta">Pedir ahora 🛒</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-content">
+    <span class="hero-badge">☀️ Abiertos todos los días</span>
+    <h1>Dulce de <em>verdad,</em><br>hecho con amor</h1>
+    <p>Waffles esponjosos, crepes doradas, donas glaseadas y cafés de especialidad. Un lugar para todos, desde los más pequeños hasta los más sabios.</p>
+    <a href="https://wa.me/584122424161" target="_blank" class="btn-primary">Pedir ahora</a>
+    <a href="#menu" class="btn-secondary">Ver menú</a>
+    <div class="hero-icons">
+      <div class="hero-icon-item">
+        <div class="hero-icon-circle ic-waffle">🧇</div>
+        <span>Waffles</span>
+      </div>
+      <div class="hero-icon-item">
+        <div class="hero-icon-circle ic-crepe">🥞</div>
+        <span>Crepes</span>
+      </div>
+      <div class="hero-icon-item">
+        <div class="hero-icon-circle ic-donut">🍩</div>
+        <span>Donas</span>
+      </div>
+      <div class="hero-icon-item">
+        <div class="hero-icon-circle ic-coffee">☕</div>
+        <span>Cafés</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+  <div class="container">
+    <div class="section-label">Nuestro menú</div>
+    <h2 class="section-title">Algo especial para cada antojo</h2>
+    <p class="section-sub">Ingredientes frescos, recetas con corazón y combinaciones que te van a sorprender.</p>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <span class="menu-card-icon">🧇</span>
+        <h3>Waffles</h3>
+        <p>Crujientes por fuera, esponjosos por dentro. Con frutos rojos, nutella, syrup de arce y más.</p>
+        <span class="menu-tag">Desde $4.50</span>
+      </div>
+      <div class="menu-card">
+        <span class="menu-card-icon">🥞</span>
+        <h3>Crepes</h3>
+        <p>Finísimas y doradas. Rellenas de lo que más te guste: dulce o salado, ¡tú decides!</p>
+        <span class="menu-tag">Desde $3.80</span>
+      </div>
+      <div class="menu-card">
+        <span class="menu-card-icon">🍩</span>
+        <h3>Donas</h3>
+        <p>Recién hechas cada día. Glaséadas, rellenas o con topping de tu elección.</p>
+        <span class="menu-tag">Desde $2.20</span>
+      </div>
+      <div class="menu-card">
+        <span class="menu-card-icon">☕</span>
+        <h3>Cafés</h3>
+        <p>Espresso, cappuccino, latte de vainilla, café frío y mucho más. También tenemos opciones sin cafeína.</p>
+        <span class="menu-tag">Desde $2.50</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HISTORIA -->
+<section class="history-section" id="historia">
+  <div class="container">
+    <div class="history-inner">
+      <div class="history-visual">
+        <span class="history-visual-text">M&M</span>
+      </div>
+      <div class="history-text">
+        <div class="section-label">Nuestra historia</div>
+        <h2 class="section-title">Nació en una cocina familiar</h2>
+        <p class="section-sub">Masa & Melao empezó con una receta heredada, una sartén de hierro y muchas ganas de compartir. Creemos que la comida dulce une generaciones, trae recuerdos y crea momentos nuevos.</p>
+        <p class="section-sub" style="margin-top:1rem;">Cada producto que hacemos lleva el mismo cuidado de siempre: masa fresca, sabores honestos y una pizca de cariño en cada bocado.</p>
+        <div class="history-stat">
+          <div class="stat-item">
+            <span class="stat-num">4+</span>
+            <span class="stat-label">Años de sabor</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">12k</span>
+            <span class="stat-label">Clientes felices</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">100%</span>
+            <span class="stat-label">Hecho con amor</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA -->
+<section class="gallery-section" id="galeria">
+  <div class="container">
+    <div class="section-label">Galería</div>
+    <h2 class="section-title">Los ojos también comen</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item large g1">
+        <span>🧇</span>
+        <div class="gallery-overlay"><span>Waffle de frutos rojos</span></div>
+      </div>
+      <div class="gallery-item g2">
+        <span>🥞</span>
+        <div class="gallery-overlay"><span>Crepe de nutella</span></div>
+      </div>
+      <div class="gallery-item g3">
+        <span>🍩</span>
+        <div class="gallery-overlay"><span>Dona glaseada</span></div>
+      </div>
+      <div class="gallery-item g4">
+        <span>☕</span>
+        <div class="gallery-overlay"><span>Latte de vainilla</span></div>
+      </div>
+      <div class="gallery-item g5">
+        <span>🍓</span>
+        <div class="gallery-overlay"><span>Especial de temporada</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVAS -->
+<section class="reservas-section" id="reservas">
+  <div class="container">
+    <div class="reservas-inner">
+      <div class="reservas-info">
+        <div class="section-label">Reservas</div>
+        <h2 class="section-title">¿Vienes en grupo?</h2>
+        <p class="section-sub">Reserva tu mesa y asegura el mejor momento. Ideal para cumpleaños, reuniones familiares o simplemente un rato especial.</p>
+        <div style="margin-top:2rem;">
+          <div class="info-item">
+            <div class="info-icon">📅</div>
+            <div class="info-text">
+              <strong>Reserva con anticipación</strong>
+              <span>Recomendamos reservar con al menos 24h de antelación</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">👨‍👩‍👧‍👦</div>
+            <div class="info-text">
+              <strong>Grupos de hasta 20 personas</strong>
+              <span>Para eventos mayores, contáctanos directamente</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">🎂</div>
+            <div class="info-text">
+              <strong>Celebraciones especiales</strong>
+              <span>Cumpleaños, reuniones y más — con decoración incluida</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reservas-form">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:1.5rem;">Haz tu reserva</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input id="r-nombre" type="text" placeholder="Tu nombre"/>
+          </div>
+          <div class="form-group">
+            <label>Teléfono</label>
+            <div style="display:flex;gap:.5rem;">
+              <select id="r-codigo" style="width:140px;flex-shrink:0;">
+                <option value="+58">🇻🇪 +58</option>
+                <option value="+57">🇨🇴 +57</option>
+                <option value="+1">🇺🇸 +1</option>
+                <option value="+52">🇲🇽 +52</option>
+                <option value="+34">🇪🇸 +34</option>
+                <option value="+54">🇦🇷 +54</option>
+                <option value="+56">🇨🇱 +56</option>
+                <option value="+51">🇵🇪 +51</option>
+                <option value="+593">🇪🇨 +593</option>
+                <option value="+507">🇵🇦 +507</option>
+                <option value="+53">🇨🇺 +53</option>
+                <option value="+1-809">🇩🇴 +1-809</option>
+                <option value="+55">🇧🇷 +55</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+33">🇫🇷 +33</option>
+              </select>
+              <input id="r-telefono" type="tel" placeholder="412 000 0000" style="flex:1;"/>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Fecha</label>
+            <input id="r-fecha" type="date"/>
+          </div>
+          <div class="form-group">
+            <label>Hora</label>
+            <input id="r-hora" type="time"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Número de personas</label>
+          <select id="r-personas">
+            <option>1 - 2 personas</option>
+            <option>3 - 4 personas</option>
+            <option>5 - 8 personas</option>
+            <option>9 - 15 personas</option>
+            <option>16 - 20 personas</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>¿Alguna ocasión especial?</label>
+          <input id="r-ocasion" type="text" placeholder="Cumpleaños, aniversario..."/>
+        </div>
+        <button class="btn-reserva" onclick="confirmarReserva()">Confirmar reserva ✓</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UBICACIÓN -->
+<section class="location-section" id="ubicacion">
+  <div class="container">
+    <div class="location-inner">
+      <div>
+        <div class="section-label">Encuéntranos</div>
+        <h2 class="section-title">Siempre cerca de ti</h2>
+        <p class="section-sub">Ven a visitarnos, ordenar en línea o simplemente tomar un café. Siempre hay un lugar para ti en Masa & Melao.</p>
+        <div style="margin-top:2rem;">
+          <p style="font-weight:600;color:var(--text);margin-bottom:.3rem;">📍 Dirección</p>
+          <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:1.5rem;">Calle Principal #123, Tu Ciudad</p>
+          <p style="font-weight:600;color:var(--text);margin-bottom:1rem;">🕐 Horarios</p>
+          <div class="hours-grid">
+            <div class="hour-row">
+              <span class="hour-day">Lunes – Viernes</span>
+              <span class="hour-time">7:00 am – 9:00 pm</span>
+            </div>
+            <div class="hour-row">
+              <span class="hour-day">Sábado</span>
+              <span class="hour-time">8:00 am – 10:00 pm</span>
+            </div>
+            <div class="hour-row">
+              <span class="hour-day">Domingo</span>
+              <span class="hour-time">9:00 am – 8:00 pm</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="map-placeholder">
+        <span class="map-pin">📍</span>
+        <p>Mapa interactivo aquí</p>
+        <p style="font-size:.78rem;color:var(--wood-dark);">Integra Google Maps con tu dirección real</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PEDIDO CTA BANNER -->
+<section id="pedido" style="background:var(--mustard);padding:4rem 2rem;text-align:center;">
+  <div class="container">
+    <h2 style="font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--text);margin-bottom:1rem;">¿Listo para el primer bocado?</h2>
+    <p style="color:var(--text-muted);font-size:1rem;margin-bottom:2rem;">Haz tu pedido en línea y recíbelo donde estés.</p>
+    <a href="https://wa.me/584122424161" target="_blank" class="btn-primary" style="font-size:1.1rem;padding:1rem 2.8rem;">🛒 Pedir ahora</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo-text">Masa <span style="color:var(--mustard);">&</span> Melao</div>
+      <p>Waffles, crepes, donas y cafés hechos con amor. Para toda la familia, todos los días.</p>
+      <div class="social-links" style="margin-top:1.2rem;">
+        <a class="social-btn" href="#" title="Instagram">📸</a>
+        <a class="social-btn" href="#" title="Facebook">👤</a>
+        <a class="social-btn" href="#" title="TikTok">🎵</a>
+        <a class="social-btn" href="#" title="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Menú</h4>
+      <ul>
+        <li><a href="#">Waffles</a></li>
+        <li><a href="#">Crepes</a></li>
+        <li><a href="#">Donas</a></li>
+        <li><a href="#">Cafés</a></li>
+        <li><a href="#">Especiales del día</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Nosotros</h4>
+      <ul>
+        <li><a href="#">Nuestra historia</a></li>
+        <li><a href="#">Reservas</a></li>
+        <li><a href="#">Ubicación</a></li>
+        <li><a href="#">Pedidos en línea</a></li>
+        <li><a href="#">Contáctanos</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Masa & Melao. Todos los derechos reservados.</span>
+    <span>Hecho con 🧇 y mucho amor</span>
+  </div>
+</footer>
+
+</body>
+</html>
